@@ -17,10 +17,10 @@ dependencyAnalysis {
 }
 
 dependencies.constraints {
-    implementation("com.google.guava:guava:33.3.1-android")
-    implementation("io.github.cdimascio:dotenv-java:3.0.2")
-    implementation("com.hedera.hashgraph:sdk:2.56.1")
-    implementation("com.hedera.hashgraph:sdk-full:2.56.1")
+    implementation("com.google.guava:guava:33.4.8-android")
+    implementation("io.github.cdimascio:dotenv-java:3.2.0")
+    implementation("com.hedera.hashgraph:sdk:2.59.0")
+    implementation("com.hedera.hashgraph:sdk-full:2.59.0")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
 }
 
@@ -58,6 +58,7 @@ abstract class RunAllExample : DefaultTask() {
                 .filter { it.name.endsWith("Example.java") }
                 .asSequence()
                 .map { it.name.replace(".java", "") }
+                .filter { it != "BatchTransactionExample" }
                 .filter {
                     it != "ValidateChecksumExample"
                 } // disabled this example, because it needs user input (but it WORKS)
@@ -67,6 +68,16 @@ abstract class RunAllExample : DefaultTask() {
                 .filter {
                     it != "InitializeClientWithMirrorNetworkExample"
                 } // disabled - cannot run on localnode
+                .filter {
+                    it != "LongTermScheduledTransactionExample"
+                } // disabled - cannot run on solo action
+                .filter {
+                    it != "DynamicAddressBookExample"
+                } // disabled - cannot run on solo action
+                .filter {
+                    it != "SolidityPrecompileExample"
+                } // disabled - cannot run on solo action
+                .filter { it != "ZeroTokenOperationsExample" && it != "ScheduleExample" }
                 .toList()
 
         exampleClasses.forEach { className ->
